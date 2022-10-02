@@ -1,0 +1,387 @@
+﻿<Window x:Class="JurmasWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JurmasWPF"
+        xmlns:vm="clr-namespace:JurmasWPF.ViewModels"
+        xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Height="600" Width="800" 
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent"
+        Title="Jurmas" >
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+    <Border
+        Background="{StaticResource Background}"
+        CornerRadius="30"
+        MouseDown="BorderMouseDown"
+        MouseLeftButtonDown="BorderMouseLeftButtonDown"
+        >
+            <!--<Menu
+                DockPanel.Dock="Top"
+                >
+                <MenuItem Header="Add" Command="{Binding CreateRecipeeCommand}"/>
+                <MenuItem Header="Edit" Command="{Binding EditRecipeeCommand}"/>
+                <MenuItem Header="Delete" Command="{Binding DeleteRecipeeCommand}"/>
+            </Menu>-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Menu Icon -->
+            <Button
+                Margin="20 28 0 35"
+                Style="{StaticResource topButton}"
+                >
+                <icon:PackIconMaterial Kind="Menu" Width="15" Height="15"/>
+            </Button>
+
+            <!-- Profile Icon -->
+            <Border
+                Grid.Row="1"
+                Background="{StaticResource CoolGreen}"
+                CornerRadius="0 50 0 30"
+                >
+                <DockPanel>
+                    <Border
+                        DockPanel.Dock="Top"
+                        Width="80" Height="80"
+                        Padding="5"
+                        Background="Gray"
+                        CornerRadius="100"
+                        HorizontalAlignment="Left"
+                        Margin="20 -30 0 0"
+                        >
+                        <Ellipse>
+                            <Ellipse.Fill>
+                                <ImageBrush
+                                    ImageSource="/JurmasWPF;component/Images/profile_icon.jpg" 
+                                    Stretch="UniformToFill"
+                                    />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </Border>
+                    
+                    <!-- Profile text -->
+                    <TextBlock
+                        DockPanel.Dock="Top"
+                        FontFamily="Univers"
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        TextAlignment="Center"
+                        Margin="5 25 0 10"
+                        Text="Edy Suwito"
+                        />
+                    <TextBlock
+                        DockPanel.Dock="Top"
+                        FontFamily="Univers"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        TextAlignment="Center"
+                        Margin="5 25 0 10"
+                        Text="Chef since birth"
+                        />
+                    <Separator
+                        DockPanel.Dock="Top"
+                        Height="2"
+                        Foreground="White"
+                        Margin="25"
+                        />
+                    
+                    <!-- Menu Buttons -->
+                    <StackPanel
+                        DockPanel.Dock="Top"
+                        >
+                        <Button
+                            Style="{StaticResource menuButton}"
+                            >
+                            <StackPanel
+                                Orientation="Horizontal"
+                                >
+                                <icon:PackIconMaterial Kind="HomeVariant" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Dashboard"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            Style="{StaticResource menuButton}"
+                            >
+                            <StackPanel
+                                Orientation="Horizontal"
+                                >
+                                <icon:PackIconMaterial Kind="Calendar" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Cooking Diary"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            Style="{StaticResource menuButton}"
+                            >
+                            <StackPanel
+                                Orientation="Horizontal"
+                                >
+                                <icon:PackIconMaterial Kind="Play" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Cook"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <Button
+                        DockPanel.Dock="Bottom"
+                        Style="{StaticResource menuButton}"
+                        VerticalAlignment="Bottom"
+                        Margin="15 0 10 20"
+                        Command="{Binding ExitCommand}"
+                        >
+                        <StackPanel
+                                Orientation="Horizontal"
+                                >
+                            <icon:PackIconMaterial Kind="ExitRun" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Exit"/>
+                        </StackPanel>
+                    </Button>
+
+                </DockPanel>
+            </Border>
+            
+
+            <!-- ListView grid -->
+            <Grid
+                Grid.Column="1"
+                Grid.RowSpan="2"
+                >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+                <Border
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    CornerRadius=" 0 0 0 20"
+                    Background="{StaticResource Orange}"
+                    />
+                <Border
+                    Grid.Row="0"
+                    CornerRadius="0 0 0 20"
+                    Background="{StaticResource CoolGreen}"
+                    />
+                
+                <!-- Information and search bar -->
+                <Grid
+                    Grid.Row="2"
+                    >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Style="{StaticResource addButton}" Command="{Binding CreateRecipeeCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <icon:PackIconMaterial Kind="Plus" 
+                                VerticalAlignment="Center" HorizontalAlignment="Center"
+                                Width="11" Height="11"
+                            />
+                        </StackPanel>
+                    </Button>
+                    
+                    <TextBlock
+                        Grid.Column="2"
+                        Margin="30 3 20 3"
+                        VerticalAlignment="Center"
+                        Foreground="LightGray"
+                        IsHitTestVisible="False"
+                        Panel.ZIndex="1"
+                        Text="Search for .."
+                        Visibility="{Binding ElementName=tboxSearch,Path=Text.IsEmpty,Converter={StaticResource ResourceKey=BoolToVis}}"
+                        />
+                    <TextBox
+                        Name="tboxSearch"
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Margin="20 3 20 3"
+                        Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource textboxSearch}"
+                        />
+                    <icon:PackIconMaterial 
+                        Grid.Column="2"
+                        Kind="Magnify"
+                        Width="15"
+                        Height="15"
+                        VerticalAlignment="Center"
+                        Margin="0 0 30 0"
+                        Foreground="LightGray"
+                        HorizontalAlignment="Right"
+                        />
+                </Grid>
+                <Rectangle
+                    Grid.Row="4"
+                    Fill="LightGray"
+                    />
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="10 3 20 3"
+                    VerticalAlignment="Center"
+                    Foreground="Gray"
+                    Text="{Binding InfoMessage}"
+                    />
+                <TextBlock
+                    Grid.Row="0"
+                    FontFamily="Univers"
+                    FontSize="30"
+                    Foreground="{StaticResource OffWhite}"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Padding="0 0 20 0"
+                    Text="Jurmas"
+                    />
+                <ContentPresenter
+                    Grid.Row="3"
+                    Content="{Binding}"
+                    >
+                    <ContentPresenter.ContentTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <ListView
+                                    Name="listviewRecipees"
+                                    ItemsSource="{Binding RecipeeCollectionView}"
+                                    SelectedItem="{Binding SelectedRecipee}"
+                                    HorizontalContentAlignment="Stretch"
+                                    BorderBrush="Transparent"
+                                    Background="Transparent"
+                                    >
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="10">
+                                                <Grid.InputBindings>
+                                                    <MouseBinding 
+                                                        Gesture="LeftDoubleClick" 
+                                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.EditRecipeeCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        />
+                                                </Grid.InputBindings>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition MaxHeight="60" Height="40"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="30"/>
+                                                    <ColumnDefinition Width="30"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Border
+                                                    Grid.Row="0"
+                                                    Grid.ColumnSpan="4"
+                                                    CornerRadius="0 10 0 0"
+                                                    Background="{StaticResource CoolGreen}"
+                                                    />
+                                                <Border
+                                                    Grid.Row="1"
+                                                    Grid.RowSpan="2"
+                                                    Grid.ColumnSpan="4"
+                                                    CornerRadius="0 0 0 20"
+                                                    Background="Gray"
+                                                    />
+                                                <Border
+                                                    Grid.Row="1"
+                                                    Grid.ColumnSpan="4"
+                                                    CornerRadius="0 0 0 20"
+                                                    Background="LightGray"
+                                                    />
+                                                <Button
+                                                    Grid.Row="1"
+                                                    Grid.Column="2"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.EditRecipeeCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource listViewButton}"
+                                                    >
+                                                    <icon:PackIconMaterial Kind="Pencil"/>
+                                                </Button>
+                                                <Button
+                                                    Grid.Row="1"
+                                                    Grid.Column="3"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.DeleteRecipeeCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource listViewButton}"
+                                                    >
+                                                    <icon:PackIconMaterial Kind="TrashCan"/>
+                                                </Button>
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    FontSize="20"
+                                                    Foreground="{StaticResource Background}"
+                                                    Padding="10 0 0 0"
+                                                    Text="{Binding Title}"
+                                                    />
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="3"
+                                                    FontSize="12"
+                                                    TextAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Padding="10"
+                                                    Text="{Binding Id}"
+                                                    />
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    FontSize="12"
+                                                    Padding="10 0 0 0"
+                                                    Text="{Binding Description}"
+                                                    />
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="1"
+                                                    FontSize="8"
+                                                    TextAlignment="Right"
+                                                    VerticalAlignment="Bottom"
+                                                    Text="{Binding DateCreated}"
+                                                    />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <TextBlock
+                                    Name="tboxEmpty"
+                                    Text="Try Add a recipee"
+                                    HorizontalAlignment="Center"
+                                    Padding="20"
+                                    FontFamily="helvetica"
+                                    FontSize="20"
+                                    Foreground="LightGray"
+                                    Visibility="Collapsed"
+                                    />
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding RecipeeCollectionView.Count}" Value="0">
+                                    <Setter TargetName="listviewRecipees" Property="Visibility" Value="Collapsed"/>
+                                    <Setter TargetName="tboxEmpty" Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ContentPresenter.ContentTemplate>
+                </ContentPresenter>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

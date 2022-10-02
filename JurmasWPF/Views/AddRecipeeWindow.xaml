@@ -1,0 +1,133 @@
+﻿<Window x:Class="JurmasWPF.Views.AddRecipeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JurmasWPF.Views"
+        xmlns:vm="clr-namespace:JurmasWPF.ViewModels"
+        mc:Ignorable="d"
+        Title="AddRecipeeWindow" Height="450" Width="450">
+    <Window.DataContext>
+        <vm:CreateRecipeeViewModel/>
+    </Window.DataContext>
+    <DockPanel>
+        <Menu
+            DockPanel.Dock="Top"
+            >
+            <MenuItem Header="Save &amp; Close" Command="{Binding SaveRecipeeCommand}">
+            </MenuItem>
+            <MenuItem Header="Cancel &amp; Close" Command="{Binding CancelCommand}">
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Rectangle
+                Grid.Row="0"
+                Fill="{StaticResource CoolGreen}"
+                />
+            <Rectangle
+                Grid.Row="1"
+                Fill="{StaticResource Orange}"
+                />
+            <Rectangle
+                Grid.Row="3"
+                Fill="{StaticResource LightGreen}"
+                />
+            <TextBlock
+                FontFamily="arial rounded mt"
+                FontSize="30"
+                Foreground="White"
+                VerticalAlignment="Center"
+                Padding="15 0 0 5"
+                Text="New Recipee"
+                />
+            <Grid
+                Grid.Row="2"
+                Background="{StaticResource Background}"
+                >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"                    
+                    VerticalAlignment="Center"
+                    FontFamily="helvetica"
+                    FontSize="15"
+                    Margin="5"
+                    Text="Title"
+                    />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    FontFamily="helvetica"
+                    FontSize="15"
+                    Margin="5"
+                    Text="{Binding RecipeeTitle, UpdateSourceTrigger=PropertyChanged}"
+                    />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"                    
+                    VerticalAlignment="Center"
+                    FontFamily="helvetica"
+                    FontSize="15"
+                    Margin="5"
+                    Text="Description"
+                    />
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.RowSpan="4"
+                    VerticalAlignment="Top"
+                    FontFamily="helvetica"
+                    FontSize="15"
+                    Margin="6,20,5,0"
+                    TextWrapping="WrapWithOverflow"
+                    AcceptsReturn="True"
+                    AcceptsTab="True"
+                    SpellCheck.IsEnabled="True"
+                    MaxLength="1024"
+                    VerticalScrollBarVisibility="Auto"
+                    Height="200"
+                    Text="{Binding Path=RecipeeDescription, UpdateSourceTrigger=PropertyChanged}"
+                    />
+                <TextBlock
+                    Grid.Row="5"
+                    Grid.ColumnSpan="2"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    FontFamily="helvetica"
+                    FontSize="15"
+                    Margin="5"
+                    Text="{Binding RecipeeTitle}"
+                    />
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.ColumnSpan="2"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    FontFamily="helvetica"
+                    FontSize="15"
+                    Margin="5"
+                    Text="{Binding RecipeeDescription}"
+                    />
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>
