@@ -5,7 +5,9 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurmasWPF", "JurmasWPF\JurmasWPF.csproj", "{0DD54B16-C9AD-4E76-B4FD-AE00CD58CB90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurmasModels", "JurmasModels\JurmasModels.csproj", "{5578413B-8E92-43EE-8DEE-54E2416C7053}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JurmasModels", "JurmasModels\JurmasModels.csproj", "{5578413B-8E92-43EE-8DEE-54E2416C7053}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JurmasAPI", "JurmasAPI\JurmasAPI.csproj", "{56D64001-18B3-44FE-98E5-2DFE645A5A17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,18 @@ Global
 		{5578413B-8E92-43EE-8DEE-54E2416C7053}.Release|x64.Build.0 = Release|Any CPU
 		{5578413B-8E92-43EE-8DEE-54E2416C7053}.Release|x86.ActiveCfg = Release|Any CPU
 		{5578413B-8E92-43EE-8DEE-54E2416C7053}.Release|x86.Build.0 = Release|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Debug|x64.Build.0 = Debug|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Debug|x86.Build.0 = Debug|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Release|x64.ActiveCfg = Release|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Release|x64.Build.0 = Release|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Release|x86.ActiveCfg = Release|Any CPU
+		{56D64001-18B3-44FE-98E5-2DFE645A5A17}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

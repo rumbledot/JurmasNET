@@ -5,6 +5,9 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <BaseOutputPath>D:\Personal_Projects\DEVELOPMENT\Jurmas\WPF</BaseOutputPath>
+    <Authors>Abraham</Authors>
+    <Company>rumbledot</Company>
   </PropertyGroup>
 
   <ItemGroup>
