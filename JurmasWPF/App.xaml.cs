@@ -1,4 +1,5 @@
-﻿using JurmasWPF.Services;
+﻿using JurmasWPF.Pages;
+using JurmasWPF.Services;
 using JurmasWPF.ViewModels;
 using JurmasWPF.Views;
 using Microsoft.EntityFrameworkCore;
@@ -26,10 +27,18 @@ public partial class App : Application
 				//	o.UseSqlite("D:\\Personal_Projects\\JurmasNET\\JurmasWPF\\JurmasDB.sqlite3")
 				//	);
 				services.AddSingleton<FakeData>();
-
                 services.AddSingleton<MainWindow>();
                 services.AddTransient<AddRecipeeWindow>();
-                services.AddTransient<CreateRecipeeViewModel>();
+                services.AddSingleton<CreateRecipeeViewModel>();
+
+                services.AddSingleton<LandingWindow>();
+				services.AddSingleton<LandingViewModel>();
+
+                services.AddSingleton<RecipeesListPage>();
+                services.AddSingleton<RecipeesListViewModel>();
+
+				services.AddSingleton<IngredientsListPage>();
+				services.AddSingleton<IngredientsListViewModel>();
             })
 			.Build();
 	}
@@ -38,7 +47,7 @@ public partial class App : Application
 	{
 		await AppHost!.StartAsync();
 
-		var startupWindow = AppHost!.Services.GetRequiredService<MainWindow>();
+		var startupWindow = AppHost!.Services.GetRequiredService<LandingWindow>();
 		startupWindow.Show();
 
 		base.OnStartup(e);

@@ -7,17 +7,17 @@ using System.Windows.Input;
 
 namespace JurmasWPF.Commands
 {
-    internal class ViewModelCommand : ICommand
+    internal class CommandBase : ICommand
     {
         private readonly Action<object> _executeAction;
         private readonly Predicate<object> _canExecuteAction;
 
-        public ViewModelCommand(Action<object> executeAction)
+        public CommandBase(Action<object> executeAction)
         {
             _executeAction = executeAction;
         }
 
-        public ViewModelCommand(Action<object> executeAction, Predicate<object> canExecuteAction)
+        public CommandBase(Action<object> executeAction, Predicate<object> canExecuteAction)
         {
             _executeAction = executeAction;
             _canExecuteAction = canExecuteAction;

@@ -1,0 +1,232 @@
+﻿<Window x:Class="JurmasWPF.Views.LandingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:JurmasWPF"
+        xmlns:ctl="clr-namespace:JurmasWPF.Controls"
+        xmlns:v="clr-namespace:JurmasWPF.Views"
+        xmlns:vm="clr-namespace:JurmasWPF.ViewModels"
+        mc:Ignorable="d"
+        Title="IngredientWindow" 
+        Height="600" Width="800">
+    <Window.DataContext>
+        <vm:LandingViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <ImageBrush 
+            x:Key="tglbtnNavMouseOver"
+            ImageSource="/JurmasWPF;component/Images/pot_open_icon.png"
+            />
+        <Style 
+            x:Key="txtNavStyle" 
+            TargetType="{x:Type TextBlock}"
+               >
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Helvetica"/>
+            <Setter Property="FontFamily" Value="20"/>
+        </Style>
+        <Style
+            x:Key="tlgbtnNavStyle" TargetType="{x:Type ToggleButton}"
+            >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border
+                            Name="border"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True"
+                            >
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger
+                                Property="IsMouseOver" Value="True">
+                                <Setter
+                                    Property="Background"
+                                    TargetName="border"
+                                    Value="{StaticResource tglbtnNavMouseOver}"
+                                    />
+                                <Setter
+                                    Property="BorderBrush"
+                                    TargetName="border"
+                                    Value="{StaticResource tglbtnNavMouseOver}"
+                                    />
+                            </Trigger>
+                            <Trigger
+                                Property="IsChecked" Value="True"
+                                >
+                                <Setter
+                                    Property="Background"
+                                    TargetName="border"
+                                    Value="{StaticResource tglbtnNavMouseOver}"
+                                    />
+                                <Setter
+                                    Property="BorderBrush"
+                                    TargetName="border"
+                                    Value="{StaticResource tglbtnNavMouseOver}"
+                                    />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid
+            Background="{StaticResource Background}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid
+                Grid.Column="0"
+                Name="panelNav"
+                HorizontalAlignment="Left"
+                Width="65"
+                Background="{StaticResource CoolGreen}"
+                >
+                <StackPanel
+                    Name="panelNavMenus">
+                    <Grid
+                        Height="90"
+                        >
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="73,-20,0,0"
+                            Background="Transparent"
+                            Text="MENU"
+                            Style="{StaticResource txtNavStyle}"
+                            >
+                            <TextBlock.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="10"
+                                    ShadowDepth="1"
+                                    Direction="-90"
+                                    Color="White"
+                                    />
+                            </TextBlock.Effect>
+                        </TextBlock>
+                        
+                        <ToggleButton
+                            Name="tglbtnNav"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Margin="18,-20,0,0"
+                            Height="30" Width="30"
+                            BorderThickness="0"
+                            Style="{StaticResource tlgbtnNavStyle}"
+                            >
+                            <ToggleButton.Background>
+                                <ImageBrush 
+                                    ImageSource="/JurmasWPF;component/Images/pot_closed_icon.png"
+                                    Stretch="Fill"/>
+                            </ToggleButton.Background>
+                            <ToggleButton.Triggers>
+                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                    <BeginStoryboard>
+                                        <Storyboard
+                                            x:Name="HideStackPanel"
+                                            >
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="panelNav"
+                                                Storyboard.TargetProperty="Width"
+                                                BeginTime="0:0:0"
+                                                From="230" To="65"
+                                                Duration="0:0:0.2"
+                                                >
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <BeginStoryboard>
+                                        <Storyboard
+                                            x:Name="ShowStackPanel"
+                                            >
+                                            <DoubleAnimation
+                                                Storyboard.TargetName="panelNav"
+                                                Storyboard.TargetProperty="Width"
+                                                BeginTime="0:0:0"
+                                                From="65" To="230"
+                                                Duration="0:0:0.2"
+                                                >
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ToggleButton.Triggers>
+                        </ToggleButton>
+                        
+                    </Grid>
+                    <ListBox
+                        Name="panelMenuItems"
+                        Margin="0 50 0 50"
+                        BorderThickness="0"
+                        Background="Transparent"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedMenu}"
+                        >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction 
+                                    Command="{Binding RelativeSource={
+                                        RelativeSource AncestorType={x:Type Window}}
+                                        , Path=DataContext.SelectingMenuCommand}"
+                             CommandParameter="{Binding RelativeSource={
+                                        RelativeSource AncestorType={x:Type ListBox}}
+                                        , Path=SelectedItem}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ctl:NavButton 
+                            Margin="3"
+                            Padding="6"
+                            Width="50"
+                            Height="80"
+                            Icon="/JurmasWPF;component/Images/pot_closed_icon.png"
+                            IconHover="/JurmasWPF;component/Images/pot_open_icon.png"
+                            NavButtonText="Ingredients"
+                            NavButtonTextColor="Black"
+                            Background="{StaticResource Orange}"
+                            NavLink="Ingredients"
+                            />
+                        <ctl:NavButton 
+                            Margin="3"
+                            Padding="6"
+                            Width="50"
+                            Height="80"
+                            Icon="/JurmasWPF;component/Images/pot_closed_icon.png"
+                            IconHover="/JurmasWPF;component/Images/pot_open_icon.png"
+                            NavButtonText="Recipees"
+                            NavButtonTextColor="White"
+                            Background="{StaticResource Yellow}"
+                            NavLink="Recipees"
+                            />
+                        <ctl:NavButton 
+                            Margin="3"
+                            Padding="6"
+                            Width="50"
+                            Height="80"
+                            Icon="/JurmasWPF;component/Images/pot_closed_icon.png"
+                            IconHover="/JurmasWPF;component/Images/pot_open_icon.png"
+                            NavButtonText="Update"
+                            NavButtonTextColor="{StaticResource Background}"
+                            Background="{StaticResource champagne}"
+                            NavLink=""
+                            />
+                    </ListBox>
+                </StackPanel>
+            </Grid>
+            <Frame 
+                Grid.Column="1"
+                Content="{Binding CurrentVM}"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -47,8 +47,8 @@ namespace JurmasWPF.ViewModels
 			this.repo = App.AppHost.Services.GetService<FakeData>();
             this.Recipee = new Recipee();
 
-            this.SaveRecipeeCommand = new ViewModelCommand(ExecuteSaveCommand, CanExecuteSave);
-			this.CancelCommand = new ViewModelCommand(ExecuteCancelCommand);
+            this.SaveRecipeeCommand = new CommandBase(ExecuteSaveCommand, CanExecuteSave);
+			this.CancelCommand = new CommandBase(ExecuteCancelCommand);
 		}
 
 		private void ExecuteCancelCommand(object obj)

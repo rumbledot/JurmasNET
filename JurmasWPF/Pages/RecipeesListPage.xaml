@@ -1,0 +1,224 @@
+﻿<Page x:Class="JurmasWPF.Pages.RecipeesListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+      xmlns:local="clr-namespace:JurmasWPF.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Page1">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Page.Resources>
+    <Grid
+        Grid.Column="1"
+        Grid.RowSpan="2"
+        Background="{StaticResource Background}"
+        >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid
+            Grid.Row="0"
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Style="{StaticResource addButton}" Command="{Binding CreateRecipeeCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <icon:PackIconMaterial 
+                        x:Name="btnIcon"
+                        Kind="Plus" 
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Width="15" Height="15"
+                        />
+                </StackPanel>
+            </Button>
+
+            <TextBox
+                Name="tboxSearch"
+                Grid.Row="0"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                Margin="20 3 20 3"
+                Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource textboxSearch}"
+                />
+            <TextBlock
+                Grid.Column="2"
+                Margin="30 3 20 3"
+                VerticalAlignment="Center"
+                Foreground="LightGray"
+                IsHitTestVisible="False"
+                Panel.ZIndex="1"
+                Text="Search for .."
+                Visibility="{Binding ElementName=tboxSearch
+                    ,PresentationTraceSources.TraceLevel=High
+                    ,Path=Text.IsEmpty
+                    ,Converter={StaticResource ResourceKey=BoolToVis}}"
+                />
+            <icon:PackIconMaterial 
+                Grid.Column="2"
+                Kind="Magnify"
+                Width="15"
+                Height="15"
+                VerticalAlignment="Center"
+                Margin="0 0 30 0"
+                Foreground="LightGray"
+                HorizontalAlignment="Right"
+                />
+        </Grid>
+        <Rectangle
+            Grid.Row="4"
+            Fill="LightGray"
+            />
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="10 3 20 3"
+            VerticalAlignment="Center"
+            Foreground="Gray"
+            Text="{Binding InfoMessage}"
+            />
+        <ContentPresenter
+            Grid.Row="3"
+            Content="{Binding}"
+            >
+            <ContentPresenter.ContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <ListView
+                            Name="listviewRecipees"
+                            ItemsSource="{Binding RecipeeCollectionView}"
+                            SelectedItem="{Binding SelectedRecipee}"
+                            HorizontalContentAlignment="Stretch"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="10">
+                                        <Grid.InputBindings>
+                                            <MouseBinding 
+                                                        Gesture="LeftDoubleClick" 
+                                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.EditRecipeeCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        />
+                                        </Grid.InputBindings>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition MaxHeight="60" Height="40"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition Width="30"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border
+                                                    Grid.Row="0"
+                                                    Grid.ColumnSpan="4"
+                                                    CornerRadius="0 10 0 0"
+                                                    Background="{StaticResource CoolGreen}"
+                                                    />
+                                        <Border
+                                                    Grid.Row="1"
+                                                    Grid.RowSpan="2"
+                                                    Grid.ColumnSpan="4"
+                                                    CornerRadius="0 0 0 20"
+                                                    Background="Gray"
+                                                    />
+                                        <Border
+                                                    Grid.Row="1"
+                                                    Grid.ColumnSpan="4"
+                                                    CornerRadius="0 0 0 20"
+                                                    Background="LightGray"
+                                                    />
+                                        <Button
+                                                    Grid.Row="1"
+                                                    Grid.Column="2"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.EditRecipeeCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource listViewButton}"
+                                                    >
+                                            <icon:PackIconMaterial Kind="Pencil"/>
+                                        </Button>
+                                        <Button
+                                                    Grid.Row="1"
+                                                    Grid.Column="3"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.DeleteRecipeeCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource listViewButton}"
+                                                    >
+                                            <icon:PackIconMaterial Kind="TrashCan"/>
+                                        </Button>
+                                        <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    FontSize="20"
+                                                    Foreground="{StaticResource Background}"
+                                                    Padding="10 0 0 0"
+                                                    Text="{Binding Title}"
+                                                    />
+                                        <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="3"
+                                                    FontSize="12"
+                                                    TextAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Padding="10"
+                                                    Text="{Binding Id}"
+                                                    />
+                                        <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    FontSize="12"
+                                                    Padding="10 0 0 0"
+                                                    Text="{Binding Description}"
+                                                    />
+                                        <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="1"
+                                                    FontSize="8"
+                                                    TextAlignment="Right"
+                                                    VerticalAlignment="Bottom"
+                                                    Text="{Binding DateCreated}"
+                                                    />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <TextBlock
+                                    Name="tboxEmpty"
+                                    Text="Try Add a recipee"
+                                    HorizontalAlignment="Center"
+                                    Padding="20"
+                                    FontFamily="helvetica"
+                                    FontSize="20"
+                                    Foreground="LightGray"
+                                    Visibility="Collapsed"
+                                    />
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RecipeeCollectionView.Count}" Value="0">
+                            <Setter TargetName="listviewRecipees" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="tboxEmpty" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ContentPresenter.ContentTemplate>
+        </ContentPresenter>
+    </Grid>
+</Page>

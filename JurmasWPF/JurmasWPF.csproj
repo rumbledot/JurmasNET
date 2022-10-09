@@ -13,6 +13,9 @@
   <ItemGroup>
     <None Remove="Images\key_icon.png" />
     <None Remove="Images\lock_icon.png" />
+    <None Remove="Images\pot_closed_icon.png" />
+    <None Remove="Images\pot_icon.png" />
+    <None Remove="Images\pot_open_icon.png" />
     <None Remove="Images\profile_icon.jpg" />
   </ItemGroup>
 
@@ -22,10 +25,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Stores\" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +35,9 @@
   <ItemGroup>
     <Resource Include="Images\key_icon.png" />
     <Resource Include="Images\lock_icon.png" />
+    <Resource Include="Images\pot_closed_icon.png" />
+    <Resource Include="Images\pot_open_icon.png" />
+    <Resource Include="Images\pot_icon.png" />
     <Resource Include="Images\profile_icon.jpg" />
   </ItemGroup>
 

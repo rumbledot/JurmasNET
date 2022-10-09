@@ -79,10 +79,10 @@ namespace JurmasWPF.ViewModels
         {
             this.Recipees = new ObservableCollection<Recipee>();
 
-            this.CreateRecipeeCommand = new ViewModelCommand(ExecuteOpenCreateRecipee);
-            this.EditRecipeeCommand = new ViewModelCommand(ExecuteEditRecipee, CanExecuteDeleteRecipee);
-            this.DeleteRecipeeCommand = new ViewModelCommand(ExecuteDeleteRecipee, CanExecuteDeleteRecipee);
-            this.ExitCommand = new ViewModelCommand(ExecuteExit);
+            this.CreateRecipeeCommand = new CommandBase(ExecuteOpenCreateRecipee);
+            this.EditRecipeeCommand = new CommandBase(ExecuteEditRecipee, CanExecuteDeleteRecipee);
+            this.DeleteRecipeeCommand = new CommandBase(ExecuteDeleteRecipee, CanExecuteDeleteRecipee);
+            this.ExitCommand = new CommandBase(ExecuteExit);
 
             this.FakeData = App.AppHost.Services.GetService<FakeData>()!;
             this.RecipeeCollectionView = CollectionViewSource.GetDefaultView(this.FakeData!.GetAllRecipes());
