@@ -1,4 +1,5 @@
-﻿using JurmasModels;
+﻿using JurmasDAL;
+using JurmasModels;
 using JurmasWPF.Commands;
 using JurmasWPF.Services;
 using JurmasWPF.Views;

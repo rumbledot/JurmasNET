@@ -1,6 +1,4 @@
-﻿using JurmasAPI.Helpers;
-
-namespace JurmasAPI.Stores;
+﻿namespace JurmasAPI.Stores;
 
 public static class APIConfig
 {
@@ -8,44 +6,46 @@ public static class APIConfig
     public const string LOG_SOURCE = "Jurmas_Log_Source";
     public const string LOG_SOURCE_NAME = "Jurmas_Log";
 
-    //JWT Token builder components
-    public const string JWT_ISSUER = "rumbledot";
-    public const string JWT_KEY = "Jurmas, Jurnal masak pintar";
-
-    public static string SETTINGS_LOCATION { get; set; } = string.Empty;
-    public static string LOG_LOCATION { get; set; } = string.Empty;
     public static int HOST_PORT { get; set; } = 8000;
     public static int API_TIMEOUT { get; set; } = 3000000;
+    public static string DBCONN { get; set; } = string.Empty;
+
+    //JWT Token builder components
+    public static string JWT_ISSUER = "rumbledot";
+    public static string JWT_AUDIENCE = "rumbledot";
+    public static string JWT_KEY = "Jurmas, Jurnal masak pintar";
+
+    public static string LOG_LOCATION = string.Empty;
 
     public static void LoadConfig()
     {
         try
         {
-            SETTINGS_LOCATION = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "api-config.ini");
-
-            if (!File.Exists(SETTINGS_LOCATION))
-            {
-                Console.WriteLine("api-config.ini file not found");
-                throw new Exception();
-            }
-
-            Console.WriteLine($"reading api-config.ini file in {SETTINGS_LOCATION}");
-
-            ConfigParser config = new ConfigParser(SETTINGS_LOCATION);
+            var config = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .AddUserSecrets<Program>()
+            .Build();
 
             //fallback to 8000
-            if (int.TryParse(config.IniReadValue("ServerSettings", "host_port"), out int port))
+            if (int.TryParse(config.GetSection("ServerSettings")["host_port"], out int port))
             {
                 HOST_PORT = port;
             }
 
             //fallback to 30000000 (3 secs)
-            if (int.TryParse(config.IniReadValue("ServerSettings", "api_timeout"), out int timout))
+            if (int.TryParse(config.GetSection("ServerSettings")["api_timeout"], out int timout))
             {
                 API_TIMEOUT = timout * 10000000; //convert sec to milisec
             }
 
-            LOG_LOCATION = config.IniReadValue("ServerSettings", "log_location", 400);
+            DBCONN = config.GetConnectionString("Default");
+
+            JWT_ISSUER = config.GetSection("JWT")["JWT_ISSUER"].ToString();
+            JWT_AUDIENCE = config.GetSection("JWT")["JWT_AUDIENCE"].ToString();
+            JWT_KEY = config.GetSection("JWT")["JWT_KEY"].ToString();
+
+            LOG_LOCATION = AppDomain.CurrentDomain.BaseDirectory;
         }
         catch (Exception ex)
         {

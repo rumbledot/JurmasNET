@@ -1,4 +1,5 @@
-﻿using JurmasModels;
+﻿using JurmasDAL;
+using JurmasModels;
 using JurmasWPF.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;

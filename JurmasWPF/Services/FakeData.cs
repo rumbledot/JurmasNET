@@ -1,4 +1,5 @@
-﻿using JurmasModels;
+﻿using JurmasDAL;
+using JurmasModels;
 using JurmasWPF.Views;
 using System;
 using System.Collections.Generic;
@@ -13,25 +14,25 @@ internal class FakeData
 {
     public List<Recipee> Recipees { get; set; }
     public List<Category> Categories { get; set; }
-    public List<JurmasStatus> Statuses { get; set; }
+    public List<RecipeeStatus> Statuses { get; set; }
     public List<Ingredient> Ingredients { get; set; }
     private int index = 5;
 
     public FakeData()
     {
-        this.Statuses = new List<JurmasStatus>()
+        this.Statuses = new List<RecipeeStatus>()
         {
-            new JurmasStatus()
+            new RecipeeStatus()
             {
                 Id =1,
                 Name="New"
             },
-            new JurmasStatus()
+            new RecipeeStatus()
             {
                 Id =2,
                 Name="Tried"
             },
-            new JurmasStatus()
+            new RecipeeStatus()
             {
                 Id =3,
                 Name="Favourite"
@@ -107,7 +108,7 @@ internal class FakeData
                 Title = "Opera cake",
                 Description = "Desc 01",
                 CategoryId = 1,
-                StatusId = 1,
+                RecipeeStatusId = 1,
                 DateCreated = DateTime.Now,
             },
             new Recipee()
@@ -116,7 +117,7 @@ internal class FakeData
                 Title = "Steak",
                 Description = "Desc 02",
                 CategoryId = 2,
-                StatusId = 1,
+                RecipeeStatusId = 1,
                 DateCreated = DateTime.Now,
             },
             new Recipee()
@@ -125,7 +126,7 @@ internal class FakeData
                 Title = "Stir fry",
                 Description = "Desc 03",
                 CategoryId = 3,
-                StatusId = 1,
+                RecipeeStatusId = 1,
                 DateCreated = DateTime.Now,
             },
             new Recipee()
@@ -134,7 +135,7 @@ internal class FakeData
                 Title = "Rendang",
                 Description = "Desc 04",
                 CategoryId= 4,
-                StatusId = 2,
+                RecipeeStatusId = 2,
                 DateCreated = DateTime.Now,
             },
             new Recipee()
@@ -143,7 +144,7 @@ internal class FakeData
                 Title = "Pancake",
                 Description = "Desc 05",
                 CategoryId = 0,
-                StatusId = 3,
+                RecipeeStatusId = 3,
                 DateCreated = DateTime.Now,
             },
         };
@@ -161,7 +162,7 @@ internal class FakeData
     {
         foreach (var item in this.Recipees)
         {
-            item.Status = this.Statuses.Where(s => s.Id == item.StatusId).FirstOrDefault();
+            item.RecipeeStatus = this.Statuses.Where(s => s.Id == item.RecipeeStatusId).FirstOrDefault();
             item.Category = this.Categories.Where(c => c.Id == item.CategoryId).FirstOrDefault();
             item.Ingredients = new List<RecipeeIngredient>();
             item.Steps = new List<RecipeeStep>();

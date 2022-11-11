@@ -1,4 +1,5 @@
-﻿using JurmasModels;
+﻿using JurmasDAL;
+using JurmasModels;
 using JurmasWPF.Commands;
 using JurmasWPF.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -62,7 +63,7 @@ namespace JurmasWPF.ViewModels
 			this.Recipee.Description = this.RecipeeDescription;
 			this.Recipee.DateCreated = DateTime.Now;
 			this.Recipee.DateUpdated = DateTime.Now;
-			this.Recipee.CreatedBy = 1;
+			this.Recipee.JurmasId = 1;
 
 			this.repo.AddRecipee(this.Recipee);
 

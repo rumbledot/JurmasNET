@@ -1,4 +1,5 @@
-﻿using JurmasModels;
+﻿using JurmasDAL;
+using JurmasModels;
 using JurmasWPF.ViewModels;
 using System;
 using System.Collections.Generic;

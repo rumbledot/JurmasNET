@@ -10,6 +10,7 @@ using JurmasAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Logging;
+using JurmasDAL;
 
 namespace JurmasAPI;
 
@@ -17,6 +18,7 @@ public static class WebAppExtension
 {
     #region Logger TraceSources
 
+    public static WebApplication APIHost;
     private static TraceListener s_listener;
 
     //log to file
@@ -58,6 +60,14 @@ public static class WebAppExtension
         {
             Console.WriteLine(new string('-', 100));
             Console.WriteLine(">>> Initialise ...");
+
+            builder.Services.AddCors(o =>
+            {
+                o.AddDefaultPolicy(builder =>
+                    builder.WithOrigins("https://localhost:8888")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
 
             exceptionAt = "Adding controllers";
             builder.Services.AddControllers();
@@ -140,17 +150,6 @@ public static class WebAppExtension
             exceptionAt = "Injecting TokenService";
             builder.Services.AddSingleton<ITokenService, TokenService>();
 
-            //exceptionAt = "Injecting Exo client";
-            //builder.Services.AddHttpClient("exo_client", c =>
-            //{
-            //    c.BaseAddress = new Uri(APIConfig.EXOAPI_HOST);
-            //    c.Timeout = new TimeSpan(APIConfig.API_TIMEOUT);
-            //});
-            //builder.Services.AddScoped<IExoClient, ExoClient>();
-
-            //exceptionAt = "Injecting SQLIte DB";
-            //builder.Services.AddSingleton<IDBClient, DBClient>();
-
             exceptionAt = "Injecting Authentication";
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
@@ -174,6 +173,8 @@ public static class WebAppExtension
                     .RequireAuthenticatedUser()
                     .Build()
             );
+
+            builder.Services.AddScoped<JurmasContext>();
 
             Console.WriteLine(">>> Initialise completed, building application ...");
 
@@ -210,14 +211,12 @@ public static class WebAppExtension
                                     $"Jurmas API v1"));
             }
 
+            app.UseCors(o => {
+                o.AllowAnyOrigin();
+                o.AllowAnyMethod();
+            });
+
             var logger = provider.GetService<ILogFiler>();
-
-            //var maincontroller = provider.GetRequiredService<IMainController>();
-            //exceptionAt = "Checking license";
-            //maincontroller.CheckLicense();
-
-            //exceptionAt = "Checking MYOB Exo API";
-            //maincontroller.CheckExo();
 
             app.UseHttpsRedirection();
 
@@ -228,6 +227,8 @@ public static class WebAppExtension
             app.MapControllers();
 
             Console.WriteLine(">>> Building completed, Running ...");
+
+            APIHost = app;
 
             return app;
         }

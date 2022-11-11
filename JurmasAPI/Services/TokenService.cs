@@ -4,12 +4,15 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Newtonsoft.Json;
 using JurmasModels;
+using JurmasDAL;
+using JurmasAPI.Stores;
+using static JurmasAPI.WebAppExtension;
 
 namespace JurmasAPI.Services
 {
     public interface ITokenService
     {
-        string BuildToken(string key, string issuer, Jurmas user);
+        string BuildToken(User user);
         Jurmas GetUser(string token);
     }
 
@@ -17,12 +20,17 @@ namespace JurmasAPI.Services
     {
         //expired in 24 hours
         private TimeSpan ExpiryDuration = new TimeSpan(24, 0, 0);
-        public string BuildToken(string key, string issuer, Jurmas user)
+        public string BuildToken(User user)
         {
             var claims = new[]
             {
-                new Claim("activeUser", JsonConvert.SerializeObject(user))
+                new Claim(ClaimTypes.Name, JsonConvert.SerializeObject(user)),
+                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
+                new Claim("loginDate", DateTime.Now.ToString("dd/MM/yyyy HH:mm"))
             };
+
+            var key = APIConfig.JWT_KEY;
+            var issuer = APIConfig.JWT_ISSUER;
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
@@ -38,32 +46,17 @@ namespace JurmasAPI.Services
         {
             try
             {
-                if (token.StartsWith("Basic"))
-                {
-                    Encoding encoding = Encoding.GetEncoding("iso-8859-1");
-                    string encodedUsernamePassword = token.Substring(6).Trim();
-                    string usernamePassword = encoding.GetString(Convert.FromBase64String(encodedUsernamePassword));
+                var handler = new JwtSecurityTokenHandler();
 
-                    int seperatorIndex = usernamePassword.IndexOf(':');
+                var activeToken = handler.ReadJwtToken(token.Replace("Bearer ", ""));
 
-                    return new Jurmas()
-                    {
-                        Username = usernamePassword.Substring(0, seperatorIndex),
-                        Password = usernamePassword.Substring(seperatorIndex + 1)
-                    };
-                }
-                else if (token.StartsWith("Bearer"))
-                {
-                    var handler = new JwtSecurityTokenHandler();
+                var userString = activeToken.Payload.First().Value;
 
-                    var activeToken = handler.ReadJwtToken(token.Replace("Bearer ", ""));
+                var user = JsonConvert.DeserializeObject<User>(userString.ToString());
 
-                    var userString = activeToken.Payload.First().Value;
+                var db = APIHost.Services.GetService<JurmasContext>();
 
-                    return JsonConvert.DeserializeObject<Jurmas>(userString.ToString());
-                }
-
-                throw new Exception("Token Auth not recognized");
+                return db.Jurmases.FirstOrDefault(j => j.Username.Equals(user.Username));
             }
             catch (Exception)
             {
